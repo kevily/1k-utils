@@ -2,8 +2,6 @@
 
 A simple and efficient Web development kit。
 
-[docs](https://kevily.github.io/1k-utils/)
-
 ## npm install
 
 ```shell
@@ -23,7 +21,7 @@ import { storage } from '1k-utils'
 storage('local').set('1', { key: '1' })
 ```
 
-## [babel-plugin-import](https://github.com/ant-design/babel-plugin-import)
+## babel-plugin-import
 
 ```json
 [
