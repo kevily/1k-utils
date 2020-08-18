@@ -1,6 +1,7 @@
 export { default as storage } from './storage'
 export { default as createFormatTime } from './createFormatTime'
 export { default as createFormValidator } from './createFormValidator'
+export { default as getFileAccept } from './getFileAccept'
 // uriAction
 // ----------------------------------------------------------------------
 export { default as serialize } from './serialize'
