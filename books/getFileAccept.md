@@ -1,23 +1,25 @@
 ## Type
 
 ```typescript
-function getFileAccept<
-    T extends
-        | 'excel'
-        | 'xls'
-        | 'xlsx'
-        | 'word'
-        | 'doc'
-        | 'docx'
-        | 'image'
-        | 'jpg'
-        | 'png'
-        | 'gif'
-        | 'webp'
-        | 'video'
-        | 'audio',
-    S extends keyof acceptType[T]
->(fileType: T | T[]): string
+interface accept {
+    excel: string
+    xls: string
+    xlsx: string
+    word: string
+    doc: string
+    docx: string
+    image: string
+    jpg: string
+    png: string
+    gif: string
+    webp: string
+    video: string
+    mp4: string
+    audio: string
+    mp3: string
+    flac: string
+}
+function getFileAccept<T extends keyof accept>(fileType: T | T[]): string
 ```
 
 ## Usage
