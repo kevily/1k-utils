@@ -1,36 +1,31 @@
 ## Type
 
 ```typescript
-const accept: {
-    excel: {
-        xls: string
-        xlsx: string
-    }
-    word: {
-        doc: string
-        docx: string
-    }
-    image: {
-        jpg: string
-        png: string
-        gif: string
-        webp: string
-    }
-    video: {}
-}
-function getFileAccept<T extends keyof acceptType, S extends keyof acceptType[T]>(
-    fileType: T | T[],
-    suffix?: S | S[]
-): string
+function getFileAccept<
+    T extends
+        | 'excel'
+        | 'xls'
+        | 'xlsx'
+        | 'word'
+        | 'doc'
+        | 'docx'
+        | 'image'
+        | 'jpg'
+        | 'png'
+        | 'gif'
+        | 'webp'
+        | 'video'
+        | 'audio',
+    S extends keyof acceptType[T]
+>(fileType: T | T[]): string
 ```
 
 ## Usage
 
 ```typescript
-getFileAccept('excel', 'xls')
-getFileAccept('excel', ['xls'])
+getFileAccept('xls')
 // => 'application/vnd.ms-excel'
-getFileAccept('excel', ['xls', 'xlsx'])
+getFileAccept(['xls', 'xlsx'])
 getFileAccept('excel')
 // => 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
 getFileAccept(['excel', 'image'])
