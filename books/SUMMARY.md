@@ -9,3 +9,4 @@
 -   [base64ToBlob](./base64ToBlob.md)
 -   [mergeToUrl](./mergeToUrl.md)
 -   [treeActions](./treeActions.md)
+-   [getFileAccept](./getFileAccept.md)

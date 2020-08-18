@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>storage · 1k-utils</title>
+        <title>getFileAccept · 1k-utils</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,10 +57,8 @@
     <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="serialize.html" />
     
-    
-    <link rel="prev" href="./" />
+    <link rel="prev" href="treeActions.html" />
     
 
     </head>
@@ -102,7 +100,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.2" data-path="storage.html">
+        <li class="chapter " data-level="1.2" data-path="storage.html">
             
                 <a href="storage.html">
             
@@ -219,7 +217,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.11" data-path="getFileAccept.html">
+        <li class="chapter active" data-level="1.11" data-path="getFileAccept.html">
             
                 <a href="getFileAccept.html">
             
@@ -262,7 +260,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="." >storage</a>
+        <a href="." >getFileAccept</a>
     </h1>
 </div>
 
@@ -277,44 +275,35 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h2 id="types">Types</h2>
-<table>
-<thead>
-<tr>
-<th>api</th>
-<th>types</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>storage</td>
-<td>( type: &apos;local&apos; or &apos;session&apos; ) =&gt; Function: get or set or remove</td>
-</tr>
-<tr>
-<td>get</td>
-<td>( key: string ) =&gt; value</td>
-</tr>
-<tr>
-<td>set</td>
-<td>( key: string, newVal: any, before: ( oldval: any, newVal: any ) =&gt; newVal ) =&gt; newVal</td>
-</tr>
-<tr>
-<td>remove</td>
-<td>( key: string ) =&gt; value</td>
-</tr>
-</tbody>
-</table>
+                                <h2 id="type">Type</h2>
+<pre><code class="lang-typescript"><span class="hljs-keyword">interface</span> accept {
+    excel: <span class="hljs-built_in">string</span>
+    xls: <span class="hljs-built_in">string</span>
+    xlsx: <span class="hljs-built_in">string</span>
+    word: <span class="hljs-built_in">string</span>
+    doc: <span class="hljs-built_in">string</span>
+    docx: <span class="hljs-built_in">string</span>
+    image: <span class="hljs-built_in">string</span>
+    jpg: <span class="hljs-built_in">string</span>
+    png: <span class="hljs-built_in">string</span>
+    gif: <span class="hljs-built_in">string</span>
+    webp: <span class="hljs-built_in">string</span>
+    video: <span class="hljs-built_in">string</span>
+    mp4: <span class="hljs-built_in">string</span>
+    audio: <span class="hljs-built_in">string</span>
+    mp3: <span class="hljs-built_in">string</span>
+    flac: <span class="hljs-built_in">string</span>
+}
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getFileAccept</span>&lt;<span class="hljs-title">T</span> <span class="hljs-title">extends</span> <span class="hljs-title">keyof</span> <span class="hljs-title">accept</span>&gt;(<span class="hljs-params">fileType: T | T[]</span>): <span class="hljs-title">string</span>
+</span></code></pre>
 <h2 id="usage">Usage</h2>
-<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> _storage = storage(<span class="hljs-string">&apos;local&apos;</span> | <span class="hljs-string">&apos;session&apos;</span>)
-_storage.set(<span class="hljs-string">&apos;key&apos;</span>, { key: <span class="hljs-string">&apos;111&apos;</span> }, (oldVal, newVal) =&gt; {
-    <span class="hljs-built_in">console</span>.log(oldVal)
-    <span class="hljs-built_in">console</span>.log(newVal)
-})
-<span class="hljs-comment">// =&gt; { key: &apos;111&apos; }</span>
-_storage.get(<span class="hljs-string">&apos;key&apos;</span>)
-<span class="hljs-comment">// =&gt; { key: &apos;111&apos; }</span>
-_storage.remove(<span class="hljs-string">&apos;key&apos;</span>)
-<span class="hljs-comment">// =&gt; { key: &apos;111&apos; }</span>
+<pre><code class="lang-typescript">getFileAccept(<span class="hljs-string">&apos;xls&apos;</span>)
+<span class="hljs-comment">// =&gt; &apos;application/vnd.ms-excel&apos;</span>
+getFileAccept([<span class="hljs-string">&apos;xls&apos;</span>, <span class="hljs-string">&apos;xlsx&apos;</span>])
+getFileAccept(<span class="hljs-string">&apos;excel&apos;</span>)
+<span class="hljs-comment">// =&gt; &apos;application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet&apos;</span>
+getFileAccept([<span class="hljs-string">&apos;excel&apos;</span>, <span class="hljs-string">&apos;image&apos;</span>])
+<span class="hljs-comment">//  =&gt; &apos;application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,image/jpg, image/jpeg,png,image/png, image/x-png,image/gif, image/webp&apos;</span>
 </code></pre>
 
                                 
@@ -343,14 +332,10 @@ _storage.remove(<span class="hljs-string">&apos;key&apos;</span>)
 
             
                 
-                <a href="./" class="navigation navigation-prev " aria-label="Previous page: Introduction">
+                <a href="treeActions.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: treeActions">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
-                
-                <a href="serialize.html" class="navigation navigation-next " aria-label="Next page: serialize">
-                    <i class="fa fa-angle-right"></i>
-                </a>
                 
             
         
@@ -359,7 +344,7 @@ _storage.remove(<span class="hljs-string">&apos;key&apos;</span>)
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"storage","level":"1.2","depth":1,"next":{"title":"serialize","level":"1.3","depth":1,"path":"serialize.md","ref":"./serialize.md","articles":[]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"root":"./books","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"1k","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"1k-utils","gitbook":"*"},"file":{"path":"storage.md","mtime":"2020-07-26T15:42:03.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-18T04:55:14.292Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"getFileAccept","level":"1.11","depth":1,"previous":{"title":"treeActions","level":"1.10","depth":1,"path":"treeActions.md","ref":"./treeActions.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"root":"./books","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"1k","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"1k-utils","gitbook":"*"},"file":{"path":"getFileAccept.md","mtime":"2020-08-18T04:48:31.133Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-18T04:55:14.292Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>
