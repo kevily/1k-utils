@@ -22,9 +22,12 @@ export const accept = {
     // video
     // ----------------------------------------------------------------------
     video: 'video/*',
+    mp4: 'video/mp4',
     // audio
     // ----------------------------------------------------------------------
     audio: 'audio/*',
+    mp3: 'audio/mpeg',
+    flac: 'audio/flac',
 }
 accept.excel = `${accept.xls},${accept.xlsx}`
 accept.word = `${accept.doc},${accept.docx}`
