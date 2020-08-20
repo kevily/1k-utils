@@ -14,13 +14,7 @@ function get( key: string ) => value
 function set( key: string, newVal: any, before: ( oldval: any, newVal: any ) => newVal ) => newVal
 
 function remove( key: string ) => value
-
-function update( key: string, updater: (val: any) => void )
 ```
-
-
-
-
 
 ## Usage
 
