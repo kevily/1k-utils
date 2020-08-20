@@ -20,13 +20,17 @@ function remove( key: string ) => value
 
 ```javascript
 const _storage = storage('local' | 'session')
-_storage.set('key', { key: '111' }, (oldVal, newVal) => {
-    console.log(oldVal)
-    console.log(newVal)
-})
+_storage.set('key', { key: '111' })
 // => { key: '111' }
 _storage.get('key')
 // => { key: '111' }
 _storage.remove('key')
 // => { key: '111' }
+storage('local').set('key', '2', (oldVal, newVal) => {
+    return {
+        ...oldVal,
+        key2: newVal,
+    }
+})
+// => { key: '111', key2: '2' }
 ```
