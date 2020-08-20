@@ -14,4 +14,9 @@ test('storage', () => {
     // ----------------------------------------------------------------------
     storage('session').set('test', DATA)
     expect(storage('session').get('test')).toEqual(DATA)
+    storage('session').update('test', (val) => {
+        val.test = '2'
+        val.a = 'a'
+    })
+    expect(storage('session').get('test')).toEqual({ test: '2', a: 'a' })
 })

@@ -1,11 +1,26 @@
 ## Types
 
-| api     | types                                                                                  |
-| ------- | -------------------------------------------------------------------------------------- |
-| storage | ( type: 'local' or 'session' ) => Function: get or set or remove                       |
-| get     | ( key: string ) => value                                                               |
-| set     | ( key: string, newVal: any, before: ( oldval: any, newVal: any ) => newVal ) => newVal |
-| remove  | ( key: string ) => value                                                               |
+> Storage
+
+```typescript
+storage(key: 'local' | 'session'): Actions
+```
+
+> Actions
+
+```typescript
+function get( key: string ) => value
+
+function set( key: string, newVal: any, before: ( oldval: any, newVal: any ) => newVal ) => newVal
+
+function remove( key: string ) => value
+
+function update( key: string, updater: (val: any) => void )
+```
+
+
+
+
 
 ## Usage
 

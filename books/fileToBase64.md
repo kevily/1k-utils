@@ -1,7 +1,7 @@
 ## Types
 
 ```typescript
-function (file: Blob | File): Promise<any>
+function fileToBase64(file: Blob | File): Promise<any>
 ```
 
 ## Usage

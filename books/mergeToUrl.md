@@ -1,7 +1,7 @@
 ## Types
 
 ```typescript
-function default(url: string, query: Object): string
+function mergeToUrl(url: string, query: Object): string
 ```
 
 ## Usage

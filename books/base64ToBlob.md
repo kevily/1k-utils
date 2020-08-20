@@ -1,7 +1,7 @@
 ## Types
 
 ```typescript
-function (dataurl: string, fileName: string): Blob
+function base64ToBlob(dataurl: string, fileName: string): Blob
 ```
 
 ## Usage
@@ -10,3 +10,4 @@ function (dataurl: string, fileName: string): Blob
 base64ToBlob(base64)
 // => Blob data
 ```
+
