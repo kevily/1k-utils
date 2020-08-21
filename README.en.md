@@ -1,8 +1,8 @@
-中文 | [English](README.en.md)
+[中文](README.md) | English
 
 # 1k-utils
 
-包含web日常开发过程中常用功能的工具箱。
+A toolkit that contains common features used in the day-to-day development of the Web。
 
 [docs](https://kevily.github.io/1k-utils/)
 
@@ -18,7 +18,7 @@ npm install 1k-utils
 yarn add 1k-utils
 ```
 
-## 使用
+## Usage
 
 ```javascript
 import { storage } from '1k-utils'
