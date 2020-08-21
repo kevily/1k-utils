@@ -1,6 +1,6 @@
 # 1k-utils
 
-A simple and efficient Web development kit。
+A toolkit that contains common features used in the day-to-day development of the Web。
 
 [docs](https://kevily.github.io/1k-utils/)
 
