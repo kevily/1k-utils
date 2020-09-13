@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>getFileAccept · 1k-utils</title>
+        <title>genId · 1k-utils</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,10 +57,8 @@
     <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="genId.html" />
     
-    
-    <link rel="prev" href="treeActions.html" />
+    <link rel="prev" href="getFileAccept.html" />
     
 
     </head>
@@ -219,7 +217,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.11" data-path="getFileAccept.html">
+        <li class="chapter " data-level="1.11" data-path="getFileAccept.html">
             
                 <a href="getFileAccept.html">
             
@@ -232,7 +230,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.12" data-path="genId.html">
+        <li class="chapter active" data-level="1.12" data-path="genId.html">
             
                 <a href="genId.html">
             
@@ -275,7 +273,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="." >getFileAccept</a>
+        <a href="." >genId</a>
     </h1>
 </div>
 
@@ -290,35 +288,9 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h2 id="type">Type</h2>
-<pre><code class="lang-typescript"><span class="hljs-keyword">interface</span> accept {
-    excel: <span class="hljs-built_in">string</span>
-    xls: <span class="hljs-built_in">string</span>
-    xlsx: <span class="hljs-built_in">string</span>
-    word: <span class="hljs-built_in">string</span>
-    doc: <span class="hljs-built_in">string</span>
-    docx: <span class="hljs-built_in">string</span>
-    image: <span class="hljs-built_in">string</span>
-    jpg: <span class="hljs-built_in">string</span>
-    png: <span class="hljs-built_in">string</span>
-    gif: <span class="hljs-built_in">string</span>
-    webp: <span class="hljs-built_in">string</span>
-    video: <span class="hljs-built_in">string</span>
-    mp4: <span class="hljs-built_in">string</span>
-    audio: <span class="hljs-built_in">string</span>
-    mp3: <span class="hljs-built_in">string</span>
-    flac: <span class="hljs-built_in">string</span>
-}
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getFileAccept</span>&lt;<span class="hljs-title">T</span> <span class="hljs-title">extends</span> <span class="hljs-title">keyof</span> <span class="hljs-title">accept</span>&gt;(<span class="hljs-params">fileType: T | T[]</span>): <span class="hljs-title">string</span>
-</span></code></pre>
-<h2 id="usage">Usage</h2>
-<pre><code class="lang-typescript">getFileAccept(<span class="hljs-string">&apos;xls&apos;</span>)
-<span class="hljs-comment">// =&gt; &apos;application/vnd.ms-excel&apos;</span>
-getFileAccept([<span class="hljs-string">&apos;xls&apos;</span>, <span class="hljs-string">&apos;xlsx&apos;</span>])
-getFileAccept(<span class="hljs-string">&apos;excel&apos;</span>)
-<span class="hljs-comment">// =&gt; &apos;application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet&apos;</span>
-getFileAccept([<span class="hljs-string">&apos;excel&apos;</span>, <span class="hljs-string">&apos;image&apos;</span>])
-<span class="hljs-comment">//  =&gt; &apos;application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,image/jpg, image/jpeg,png,image/png, image/x-png,image/gif, image/webp&apos;</span>
+                                <h2 id="usage">Usage</h2>
+<pre><code class="lang-typescript">genId.uuid()
+genId.simple()
 </code></pre>
 
                                 
@@ -347,14 +319,10 @@ getFileAccept([<span class="hljs-string">&apos;excel&apos;</span>, <span class="
 
             
                 
-                <a href="treeActions.html" class="navigation navigation-prev " aria-label="Previous page: treeActions">
+                <a href="getFileAccept.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: getFileAccept">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
-                
-                <a href="genId.html" class="navigation navigation-next " aria-label="Next page: genId">
-                    <i class="fa fa-angle-right"></i>
-                </a>
                 
             
         
@@ -363,7 +331,7 @@ getFileAccept([<span class="hljs-string">&apos;excel&apos;</span>, <span class="
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"getFileAccept","level":"1.11","depth":1,"next":{"title":"genId","level":"1.12","depth":1,"path":"genId.md","ref":"./genId.md","articles":[]},"previous":{"title":"treeActions","level":"1.10","depth":1,"path":"treeActions.md","ref":"./treeActions.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"root":"./books","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"1k","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"1k-utils","gitbook":"*"},"file":{"path":"getFileAccept.md","mtime":"2020-08-18T05:01:17.155Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-13T09:31:30.602Z"},"basePath":".","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"genId","level":"1.12","depth":1,"previous":{"title":"getFileAccept","level":"1.11","depth":1,"path":"getFileAccept.md","ref":"./getFileAccept.md","articles":[]},"dir":"ltr"},"config":{"plugins":[],"root":"./books","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"1k","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"1k-utils","gitbook":"*"},"file":{"path":"genId.md","mtime":"2020-09-13T09:29:48.309Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-13T09:31:30.602Z"},"basePath":".","book":{"language":""}});
         });
     </script>
 </div>

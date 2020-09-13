@@ -10,3 +10,4 @@
 -   [mergeToUrl](./mergeToUrl.md)
 -   [treeActions](./treeActions.md)
 -   [getFileAccept](./getFileAccept.md)
+-   [genId](./genId.md)
