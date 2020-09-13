@@ -4,7 +4,7 @@ import isString from 'lodash/isString'
 import last from 'lodash/last'
 import split from 'lodash/split'
 
-interface resultType {
+export interface resultType {
     [key: string]: any
 }
 
@@ -27,8 +27,10 @@ function deserialze(data: string) {
         data = last(data.split('?'))
         const params: any[] = split(data, '&')
         each(params, (param: string) => {
-            const [key, val]: any[] = split(param, '=')
-            set(result, `[${key}]`, val)
+            if (param) {
+                const [key, val]: any[] = split(param, '=')
+                set(result, `[${key}]`, decodeURIComponent(val))
+            }
         })
     }
     return result
