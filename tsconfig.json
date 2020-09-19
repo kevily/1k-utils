@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "module": "ESNext",
+        "module": "ES2015",
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
         "target": "es6",
@@ -13,7 +13,7 @@
             "*": ["node_modules/*"]
         },
         "declaration": true,
-        "declarationDir": "types"
+        "declarationDir": "lib"
     },
     "include": ["src/**/*"]
 }
