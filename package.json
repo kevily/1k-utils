@@ -2,6 +2,7 @@
     "name": "1k-utils",
     "version": "1.2.3",
     "main": "./lib/index.js",
+    "module": "./es/index.js",
     "types": "./lib/index.d.ts",
     "repository": "https://github.com/kevily/1k-utils",
     "author": "1k <bug_zero@163.com>",
@@ -15,6 +16,7 @@
         "build:book": "rimraf ./_book && rimraf ./docs &&  gitbook build  && node ./utils/_bookToDocs"
     },
     "files": [
+        "es",
         "lib",
         "types",
         "package.json"
