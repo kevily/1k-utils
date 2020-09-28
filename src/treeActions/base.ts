@@ -33,7 +33,7 @@ export function indexToLodashPath(indexPath: string): string {
 export function getParentPath(indexPath: string, allPath = false): undefined | string | string[] {
     const indexs = indexPath.split('-')
     let prevIndex = ''
-    let allParentPath = map(indexs, path => {
+    let allParentPath = map(indexs, (path) => {
         prevIndex = prevIndex === '' ? path : `${prevIndex}-${path}`
         return prevIndex
     })

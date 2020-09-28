@@ -15,6 +15,11 @@
         "start:book": "rimraf ./_book && gitbook serve ",
         "build:book": "rimraf ./_book && rimraf ./docs &&  gitbook build  && node ./utils/_bookToDocs"
     },
+    "husky": {
+        "hooks": {
+            "pre-commit": "prettier --write ./src && git add . && npm run test"
+        }
+    },
     "files": [
         "es",
         "lib",
@@ -42,6 +47,7 @@
         "gulp": "^4.0.2",
         "gulp-babel": "^8.0.0",
         "gulp-typescript": "^6.0.0-alpha.1",
+        "husky": "4.3.0",
         "jest": "25.3.0",
         "moment": "^2.27.0",
         "prettier": "2.0.4",

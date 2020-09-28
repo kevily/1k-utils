@@ -33,7 +33,7 @@ function createFormatTime(fn: Function, format: formatType, dataType: dataType =
         if (isArray(time)) {
             const formatTime = createFormatTime(fn, format, dataType)
             let _times: string[] = []
-            each(time, t => {
+            each(time, (t) => {
                 if (t) {
                     _times.push(formatTime(t, ''))
                 }
