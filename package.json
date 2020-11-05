@@ -17,14 +17,13 @@
     },
     "husky": {
         "hooks": {
-            "pre-commit": "lint-staged && git add ."
+            "pre-commit": "npm run test && lint-staged && git add ."
         }
     },
     "lint-staged": {
         "./src/**/*.{ts,tsx,js,jsx}": [
             "prettier --write",
-            "eslint",
-            "npm run test"
+            "eslint"
         ]
     },
     "files": [
@@ -51,6 +50,7 @@
         "babel-plugin-lodash": "^3.3.4",
         "browserify": "^16.5.2",
         "dayjs": "^1.8.30",
+        "eslint": "7.12.1",
         "gulp": "^4.0.2",
         "gulp-babel": "^8.0.0",
         "gulp-typescript": "^6.0.0-alpha.1",
