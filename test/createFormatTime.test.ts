@@ -71,6 +71,7 @@ test('moment', () => {
 // ----------------------------------------------------------------------
 test('other', () => {
     const formatDay = createFormatTime(dayjs, 'DD')
+    expect(formatDay(ARR.default, '', '-')).toBe('2020-02-02-2020-02-05')
     expect(formatDay('')).toBe(undefined)
     expect(formatDay([])).toBe('')
 })

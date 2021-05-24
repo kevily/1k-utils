@@ -24,7 +24,7 @@ function createBabelConfig(before) {
 
 function task_ts({ babelConfig, output }) {
     const copyFiles = copySuffix.map((s) => path.join(__dirname, `src/**/*.${s}`))
-    const ignore = path.join(__dirname, `**/node_modules/**/*.*`)
+    const ignore = path.join(__dirname, '**/node_modules/**/*.*')
     const src = jsSuffix.map((s) => path.join(__dirname, `src/**/*.${s}`))
     // 解析ts文件
     // ------------------------------------------------------------------------
