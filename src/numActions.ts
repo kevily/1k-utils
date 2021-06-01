@@ -11,7 +11,7 @@ export default {
     toPercentage(dividend: number, divisor: number, precision = 2): number {
         let rate = 0
         if (divisor > 0) {
-            rate = _.round(_.divide(dividend, divisor) * 100, precision)
+            rate = _.round(_.divide(dividend || 0, divisor) * 100, precision)
             rate = rate > 100 ? 100 : rate
         }
         return rate
