@@ -66,7 +66,7 @@ function convertImageToCanvas(
     return canvas
 }
 function getOrientation(file: any) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         EXIF.getData(file, function (this: any) {
             resolve(EXIF.getTag(this, 'Orientation'))
         })
@@ -83,7 +83,7 @@ export default function (file: any, maxHeight = 1024, maxWidth = 1024): Promise<
     if (!file) {
         return Promise.resolve(file)
     }
-    return new Promise(async resolve => {
+    return new Promise(async (resolve) => {
         if (includes(file.type, 'image')) {
             const reader = new FileReader()
             const image = new Image()
@@ -92,7 +92,7 @@ export default function (file: any, maxHeight = 1024, maxWidth = 1024): Promise<
             reader.onload = (e: any) => {
                 image.src = e.target.result
             }
-            image.onload = e => {
+            image.onload = (e) => {
                 const canvas = convertImageToCanvas(image, maxHeight, maxWidth, Orientation)
                 if (!canvas) {
                     return resolve('')

@@ -4,7 +4,7 @@ import isString from 'lodash/isString'
 import last from 'lodash/last'
 import split from 'lodash/split'
 
-interface resultType {
+export interface resultType {
     [key: string]: any
 }
 
@@ -16,8 +16,8 @@ const endRegExp = /[\?\&]+$/
  * @param data 需要被反序列化的字符串
  * @return 反序列化后的数据
  */
-function deserialze(data: string) {
-    let result: resultType = {}
+function deserialze(data: string): resultType {
+    const result: resultType = {}
     if (data && isString(data)) {
         // Remove the heads and tails ? with &.
         // ----------------------------------------------------------------------
@@ -27,8 +27,10 @@ function deserialze(data: string) {
         data = last(data.split('?'))
         const params: any[] = split(data, '&')
         each(params, (param: string) => {
-            const [key, val]: any[] = split(param, '=')
-            set(result, `[${key}]`, val)
+            if (param) {
+                const [key, val]: any[] = split(param, '=')
+                set(result, `[${key}]`, decodeURIComponent(val))
+            }
         })
     }
     return result

@@ -27,7 +27,7 @@ export const accept = {
     // ----------------------------------------------------------------------
     audio: 'audio/*',
     mp3: 'audio/mpeg',
-    flac: 'audio/flac',
+    flac: 'audio/flac'
 }
 accept.excel = `${accept.xls},${accept.xlsx}`
 accept.word = `${accept.doc},${accept.docx}`

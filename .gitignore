@@ -15,6 +15,7 @@
 .idea
 .history
 /lib
+/es
 /types
 
 # misc

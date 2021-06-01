@@ -27,18 +27,19 @@ const formatFn = {
  * @param format 时间格式字段
  * @param time 需要被格式化的数据
  * @param defaultValue 值不存在的时候使用
+ * @param separator 值为数组的时候两个多个时间之间的分隔符,默认为'~'
  */
-function createFormatTime(fn: Function, format: formatType, dataType: dataType = 'default') {
-    return function (time: any | any[], defaultValue?: string): string {
+function createFormatTime(fn: any, format: formatType, dataType: dataType = 'default') {
+    return function (time: any | any[], defaultValue?: string, separator = '~'): string {
         if (isArray(time)) {
             const formatTime = createFormatTime(fn, format, dataType)
-            let _times: string[] = []
-            each(time, t => {
+            const _times: string[] = []
+            each(time, (t) => {
                 if (t) {
                     _times.push(formatTime(t, ''))
                 }
             })
-            return size(_times) === size(time) ? _times.join('~') : defaultValue
+            return size(_times) === size(time) ? _times.join(separator) : defaultValue
         }
         return formatFn[dataType](fn, time, DATE_FORMAT[format], defaultValue)
     }
