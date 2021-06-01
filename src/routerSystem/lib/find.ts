@@ -3,7 +3,7 @@ import isArray from 'lodash/isArray'
 import size from 'lodash/size'
 import startsWith from 'lodash/startsWith'
 
-function chain(routes: routesType, pathname: string): routesType {
+export default function find(routes: routesType, pathname: string): routesType {
     const result: routesType = []
     let target: routeType = {}
     let i = 0
@@ -15,7 +15,7 @@ function chain(routes: routesType, pathname: string): routesType {
         }
         // find parent
         // ----------------------------------------------------------------------
-        if (startsWith(pathname, target.path)) {
+        if (startsWith(pathname, `${target.path}/`)) {
             if (isArray(target.routes)) {
                 routes = target.routes
                 i = 0
@@ -31,23 +31,4 @@ function chain(routes: routesType, pathname: string): routesType {
         }
     }
     return result
-}
-
-function flat(routes: routesType, pathname: string): routesType {
-    const result: routesType = []
-    for (let index = 0; index < routes.length; index++) {
-        const route = routes[index]
-        if (startsWith(pathname, route.path)) {
-            result.push(route)
-            if (pathname === route.path) {
-                break
-            }
-        }
-    }
-    result.sort((a, b) => size(a.path) - size(b.path))
-    return result
-}
-
-export default function (routes: routesType, pathname: string, isChain = false): routesType {
-    return isChain ? chain(routes, pathname) : flat(routes, pathname)
 }

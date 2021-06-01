@@ -1,4 +1,5 @@
 import find from './lib/find'
+import update from './lib/update'
 
 export interface routeType {
     breadcrumb?: string
@@ -8,6 +9,9 @@ export interface routeType {
 }
 export type routesType = routeType[]
 
-export default {
-    find
+const routerSystem = {
+    find,
+    update
 }
+
+export default routerSystem
