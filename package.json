@@ -3,7 +3,7 @@
     "version": "1.4.0",
     "main": "./dist/index.cjs.js",
     "module": "./dist/index.esm.js",
-    "types": "./types/index.d.ts",
+    "types": "./dist/types/index.d.ts",
     "repository": "https://github.com/kevily/1k-utils",
     "author": "1k <bug_zero@163.com>",
     "license": "MIT",
