@@ -2,8 +2,6 @@ import isNil from 'lodash/isNil'
 import isFunction from 'lodash/isFunction'
 import has from 'lodash/has'
 
-const win: Window = window
-
 interface cacheType {
     session?: Storage
     local?: Storage
@@ -15,7 +13,7 @@ const cache: cacheType = {}
 class Storage {
     private storage: any
     constructor(type: storageType) {
-        this.storage = type === 'local' ? win.localStorage : win.sessionStorage
+        this.storage = type === 'local' ? window.localStorage : window.sessionStorage
     }
     public get(key: string): any {
         let newVal = this.storage.getItem(key)
