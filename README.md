@@ -24,16 +24,3 @@ yarn add 1k-utils
 import { storage } from '1k-utils'
 storage('local').set('1', { key: '1' })
 ```
-
-## [babel-plugin-import](https://github.com/ant-design/babel-plugin-import)
-
-```json
-[
-    "import",
-    {
-        "libraryName": "1k-utils",
-        "camel2DashComponentName": false
-    },
-    "1k-utils"
-]
-```
