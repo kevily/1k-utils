@@ -2,7 +2,7 @@ module.exports = {
     title: '1k-utils',
     tagline: 'The tagline of my site',
     url: 'https://your-docusaurus-test-site.com',
-    baseUrl: '/',
+    baseUrl: '/1k-utils/',
     onBrokenLinks: 'throw',
     favicon: 'img/favicon.ico',
     organizationName: '1k', // Usually your GitHub org/user name.
