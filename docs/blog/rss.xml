@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
     <channel>
-        <title>My Site Blog</title>
+        <title>1k-utils Blog</title>
         <link>https://your-docusaurus-test-site.com/blog</link>
-        <description>My Site Blog</description>
-        <lastBuildDate>Tue, 04 Jan 2022 04:30:54 GMT</lastBuildDate>
+        <description>1k-utils Blog</description>
+        <lastBuildDate>Wed, 19 Jan 2022 11:24:56 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[index]]></title>
             <link>https://your-docusaurus-test-site.com/blog/index</link>
             <guid>index</guid>
-            <pubDate>Tue, 04 Jan 2022 04:30:54 GMT</pubDate>
+            <pubDate>Wed, 19 Jan 2022 11:24:56 GMT</pubDate>
         </item>
     </channel>
 </rss>
