@@ -27,7 +27,7 @@ const setRequestParams = (name: any, val: any[], params: any[]) => {
  */
 function serialize(data?: dataType): string {
     if (!isArray(data) && isObjectLike(data)) {
-        let params: any[] = []
+        const params: any[] = []
         each(data, (val, key) => setRequestParams(key, val, params))
         return params.join('&')
     }

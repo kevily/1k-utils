@@ -11,6 +11,8 @@
 # production
 /build
 /dist
+/esm
+/cjs
 .vscode
 .idea
 .history

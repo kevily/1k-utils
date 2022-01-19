@@ -1,61 +1,49 @@
 {
-    "name": "1k-utils",
-    "version": "1.4.0",
-    "main": "./dist/index.cjs.js",
-    "module": "./dist/index.esm.js",
-    "types": "./dist/types/index.d.ts",
-    "repository": "https://github.com/kevily/1k-utils",
-    "author": "1k <bug_zero@163.com>",
-    "license": "MIT",
-    "scripts": {
-        "build": "rimraf ./dist && npm run test && rollup --config rollup.config.ts --configPlugin typescript",
-        "test": "jest --forceExit --coverage --verbose",
-        "login": "npm login --registry http://registry.npmjs.org",
-        "pub": "npm run build && npm publish --registry http://registry.npmjs.org",
-        "start:book": "rimraf ./_book && gitbook serve ",
-        "build:book": "rimraf ./_book && rimraf ./docs &&  gitbook build  && node ./utils/_bookToDocs"
-    },
-    "husky": {
-        "hooks": {
-            "pre-commit": "npm run test && lint-staged && git add ."
-        }
-    },
-    "lint-staged": {
-        "./src/**/*.{ts,tsx,js,jsx}": [
-            "prettier --write",
-            "eslint"
-        ]
-    },
-    "files": [
-        "dist",
-        "package.json"
-    ],
-    "dependencies": {
-        "exif-js": "2.3.0",
-        "js-base64": "2.5.0",
-        "js-md5": "0.7.3",
-        "lodash": "4.17.20"
-    },
-    "devDependencies": {
-        "@rollup/plugin-typescript": "^8.2.1",
-        "@types/jest": "^26.0.23",
-        "@types/js-base64": "^3.3.1",
-        "@types/js-md5": "^0.4.2",
-        "@types/lodash": "^4.14.170",
-        "@typescript-eslint/eslint-plugin": "^4.28.1",
-        "@typescript-eslint/parser": "^4.28.1",
-        "dayjs": "^1.10.5",
-        "eslint": "^7.29.0",
-        "husky": "^4.3.8",
-        "jest": "^26.6.3",
-        "lint-staged": "^11.0.0",
-        "moment": "^2.29.1",
-        "prettier": "2.3.2",
-        "rimraf": "^3.0.2",
-        "rollup": "^2.52.6",
-        "rollup-plugin-typescript2": "^0.30.0",
-        "ts-jest": "^26.5.6",
-        "tslib": "^2.3.0",
-        "typescript": "^4.3.5"
-    }
+  "name": "1k-utils",
+  "version": "1.4.0",
+  "main": "./cjs/index.js",
+  "module": "./esm/index.js",
+  "types": "./esm/types/index.d.ts",
+  "repository": "https://github.com/kevily/1k-utils",
+  "author": "1k <bug_zero@163.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "test": "jest --forceExit --coverage --verbose",
+    "login": "npm login --registry http://registry.npmjs.org",
+    "pub": "npm publish --registry http://registry.npmjs.org",
+    "push": "git add . && task --eslint --cz && git push",
+    "start:docs": "cd website && yarn start",
+    "build:docs": "cd website && yarn build"
+  },
+  "files": [
+    "esm",
+    "cjs",
+    "package.json"
+  ],
+  "dependencies": {
+    "exif-js": "2.3.0",
+    "js-base64": "2.5.0",
+    "js-md5": "0.7.3",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "1k-tasks": "^2.1.1",
+    "@types/jest": "^27.0.1",
+    "@types/js-base64": "^3.3.1",
+    "@types/js-md5": "^0.4.2",
+    "@types/lodash": "^4.14.178",
+    "@typescript-eslint/eslint-plugin": "^4.28.1",
+    "@typescript-eslint/parser": "^4.28.1",
+    "babel-plugin-import": "^1.13.3",
+    "dayjs": "^1.10.5",
+    "eslint": "^7.29.0",
+    "jest": "^27.2.0",
+    "moment": "^2.29.1",
+    "prettier": "2.3.2",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^27.0.5",
+    "tslib": "^2.3.0",
+    "typescript": "^4.3.5"
+  }
 }

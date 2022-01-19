@@ -1,5 +1,5 @@
-import routerSystem, { routesType } from '../src/routerSystem'
-import cloneDeep from 'lodash/cloneDeep'
+import RouterSystem, { routesType } from '../src/RouterSystem'
+import _ from 'lodash'
 
 const routes: routesType = [
     {
@@ -37,14 +37,21 @@ const routes: routesType = [
 ]
 
 test('routerSystem', () => {
-    expect(routerSystem.find(routes, '/home2/child')).toEqual([routes[1], routes[1].routes[0]])
-    const newRoutes = cloneDeep(routes)
-    newRoutes[0].breadcrumb = 'home/update'
-    newRoutes[0].newFields = 'newFields'
-    expect(
-        routerSystem.update(cloneDeep(routes), '/home', {
-            breadcrumb: 'home/update',
-            newFields: 'newFields'
-        })
-    ).toEqual(newRoutes)
+    const router1 = new RouterSystem(_.cloneDeep(routes))
+    expect(router1.find('/home2/child')).toEqual({ target: routes[1].routes[0], path: [1, 0] })
+    expect(router1.find('/home2/3333')).toEqual({ target: {}, path: [] })
+    router1.update('/home2/child', {
+        breadcrumb: 'home2/child(updated)'
+    })
+    expect(router1.find('/home2/child')).toEqual({
+        target: {
+            ...routes[1].routes[0],
+            breadcrumb: 'home2/child(updated)'
+        },
+        path: [1, 0]
+    })
+
+    const router2 = new RouterSystem(_.cloneDeep(routes))
+    expect(router2.remove('/home2')).toEqual(routes[1])
+    expect(router2.find('/home2')).toEqual({ target: {}, path: [] })
 })

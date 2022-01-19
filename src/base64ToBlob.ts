@@ -8,14 +8,14 @@ import get from 'lodash/get'
 export default function (dataurl: string, fileName: string): Blob {
     try {
         const arr = dataurl.split(',')
-        let mime = (get(arr, 0, '').match(/:(.*?);/) || [])[1]
+        const mime = (get(arr, 0, '').match(/:(.*?);/) || [])[1]
         const bstr = atob(arr[1])
         let n = bstr.length
-        let u8arr = new Uint8Array(n)
+        const u8arr = new Uint8Array(n)
         while (n--) {
             u8arr[n] = bstr.charCodeAt(n)
         }
-        let blob: any = new Blob([u8arr], { type: mime })
+        const blob: any = new Blob([u8arr], { type: mime })
         blob.lastModifiedDate = new Date()
         blob.name = fileName
 

@@ -22,19 +22,14 @@ const formatFn = {
 }
 
 /**
- *
  * @param fn dayjs | moment
- * @param format 时间格式字段
- * @param time 需要被格式化的数据
- * @param defaultValue 值不存在的时候使用
- * @param separator 值为数组的时候两个多个时间之间的分隔符,默认为'~'
  */
 function createFormatTime(fn: any, format: formatType, dataType: dataType = 'default') {
     return function (time: any | any[], defaultValue?: string, separator = '~'): string {
         if (isArray(time)) {
             const formatTime = createFormatTime(fn, format, dataType)
             const _times: string[] = []
-            each(time, (t) => {
+            each(time, t => {
                 if (t) {
                     _times.push(formatTime(t, ''))
                 }

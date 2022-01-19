@@ -1,7 +1,7 @@
-import treeActions from '../src/treeActions'
-import _ from 'lodash'
+import TreeActions, { insideTreeNodeType } from '../src/TreeActions'
+import { cloneDeep, omit } from 'lodash'
 
-const TREE_LIST = [
+const SEARCH_LIST = [
     {
         title: '1',
         id: '1',
@@ -9,113 +9,75 @@ const TREE_LIST = [
             {
                 title: '1-1',
                 id: '1-1',
-                ParentId: '1',
                 children: [
                     {
                         title: '1-1-1',
-                        id: '1-1-1',
-                        ParentId: '1-1'
+                        id: '1-1-1'
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        title: '2',
+        id: '2',
+        children: [
+            {
+                title: '2-1',
+                id: '2-1',
+                children: [
+                    {
+                        title: '2-1-1',
+                        id: '2-1-1'
                     }
                 ]
             }
         ]
     }
 ]
+const INSIDE_SEARCH_LIST = TreeActions.transformTreeList(SEARCH_LIST)
 
-const LEVEL_TOP = TREE_LIST[0]
-const LEVEL_1 = TREE_LIST[0].children[0]
-const LEVEL_2 = TREE_LIST[0].children[0].children[0]
+const TREE_LIST = [
+    cloneDeep(omit(SEARCH_LIST[0], ['children'])),
+    cloneDeep(omit(SEARCH_LIST[1], ['children']))
+]
+const INSIDE_TREE_LIST: insideTreeNodeType[] = TreeActions.transformTreeList(TREE_LIST)
 
-const IDS = ['1-1-1']
-
-test('getParentPath', () => {
-    expect(treeActions.getParentPath('1-1-1')).toBe('1-1')
-    expect(treeActions.getParentPath('1-1-1', true)).toEqual(['1', '1-1'])
+const originTreeAction = new TreeActions(SEARCH_LIST, {
+    fetchNode: async () => ({}),
+    fetchParentNode: async () => ({})
 })
 
-test('mergePath', () => {
-    expect(treeActions.mergePath('1-1', '1')).toBe('1-1-1')
+const treeActions = new TreeActions(TREE_LIST, {
+    fetchNode: async nodeId => {
+        return originTreeAction.getTreeNodes([nodeId])[0]
+    },
+    fetchParentNode: async node => {
+        const parentId = TreeActions.getWholePath(node.id).slice(-2, -1)
+        return originTreeAction.getTreeNodes(parentId)[0]
+    }
 })
 
-test('indexToLodashPath', () => {
-    expect(treeActions.indexToLodashPath('1-1-1')).toBe('[1].children[1].children[1]')
+test('static', () => {
+    expect(TreeActions.transformTreeList(TREE_LIST)).toEqual(INSIDE_TREE_LIST)
+    expect(TREE_LIST).toEqual(INSIDE_TREE_LIST)
+    expect(TreeActions.getWholePath('1-1-1')).toEqual(['1', '1-1', '1-1-1'])
+    expect(TreeActions.mergePath('1-1', '1')).toBe('1-1-1')
+    expect(TreeActions.indexToLodashPath('1-1-1')).toBe('[1].children[1].children[1]')
 })
 
-test('getTreeNodes', () => {
-    expect(treeActions.getTreeNodes(TREE_LIST, IDS)).toEqual([LEVEL_2])
+test('reverseLoadNode', async () => {
+    await treeActions.reverseLoadNode('1-1-1')
+    await treeActions.reverseLoadNode('2-1-1')
+    expect(treeActions.treeList).toEqual(TreeActions.transformTreeList(SEARCH_LIST))
+})
+
+test('getTreeNodes', async () => {
     expect(
-        treeActions.getTreeNodes(TREE_LIST, [LEVEL_TOP.id, LEVEL_1.id, LEVEL_2.id], true)
-    ).toEqual([LEVEL_TOP, LEVEL_1, LEVEL_2])
-})
-
-test('customize', () => {
-    const treeList = _.cloneDeep(TREE_LIST)
-    treeActions.customize({
-        treeList,
-        childrenKey: 'children',
-        setTreeNode: treeNode => {
-            treeNode.custom = 'custom'
-        }
-    })
-    expect(treeList).toEqual([
-        {
-            title: '1',
-            id: '1',
-            indexPath: '0',
-            custom: 'custom',
-            children: [
-                {
-                    title: '1-1',
-                    id: '1-1',
-                    ParentId: '1',
-                    indexPath: '0-0',
-                    custom: 'custom',
-                    children: [
-                        {
-                            title: '1-1-1',
-                            id: '1-1-1',
-                            ParentId: '1-1',
-                            indexPath: '0-0-0',
-                            custom: 'custom'
-                        }
-                    ]
-                }
-            ]
-        }
-    ])
-})
-
-test('loadParentTree', async () => {
-    const treeList = treeActions.customize({
-        treeList: [_.omit(LEVEL_TOP, 'children')],
-        childrenKey: 'children'
-    })
-    const result = await treeActions.loadParentTree(treeList, '1-1-1', async nodeId => {
-        const treeNode = await Promise.resolve(treeActions.getTreeNodes(TREE_LIST, [nodeId]))
-        return treeActions.customize({ treeList: treeNode, childrenKey: 'children' })[0]
-    })
-    expect(result).toEqual({ ParentId: '1-1', id: '1-1-1', indexPath: '0-0-0', title: '1-1-1' })
-    expect(treeList).toEqual([
-        {
-            title: '1',
-            id: '1',
-            indexPath: '0',
-            children: [
-                {
-                    title: '1-1',
-                    id: '1-1',
-                    ParentId: '1',
-                    indexPath: '0-0',
-                    children: [
-                        {
-                            title: '1-1-1',
-                            id: '1-1-1',
-                            ParentId: '1-1',
-                            indexPath: '0-0-0'
-                        }
-                    ]
-                }
-            ]
-        }
+        treeActions.getTreeNodes([SEARCH_LIST[0].id, SEARCH_LIST[0].children[0].id], true)
+    ).toEqual([INSIDE_SEARCH_LIST[0], INSIDE_SEARCH_LIST[0].__children__[0]])
+    expect(treeActions.getTreeNodes([SEARCH_LIST[0].id, SEARCH_LIST[1].children[0].id])).toEqual([
+        INSIDE_SEARCH_LIST[0],
+        INSIDE_SEARCH_LIST[1].__children__[0]
     ])
 })

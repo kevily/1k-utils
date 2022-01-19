@@ -1,31 +1,23 @@
 import storage from '../src/storage'
 
-const DATA = { test: '1' }
-const STRING = '1'
+const DATA = { test: '1', test2: '2', test3: '3' }
+const DATA2 = { test: '1', test2: '2', test3: '3' }
+const keys = {
+    test: 'test',
+    test2: 'test2'
+}
 
 test('storage', () => {
     // local
     // ----------------------------------------------------------------------
-    expect(storage('local').set('test', DATA)).toEqual(DATA)
-    expect(storage('local').get('test')).toEqual(DATA)
-    expect(
-        storage('local').set('test', '2', (oldVal, newVal) => {
-            return {
-                ...oldVal,
-                test2: newVal,
-            }
-        })
-    ).toEqual({ ...DATA, test2: '2' })
-    // session
-    // ----------------------------------------------------------------------
-    storage('session').set('test', DATA)
-    expect(storage('session').get('test')).toEqual(DATA)
-    expect(
-        storage('session').set('test', '2', (oldVal, newVal) => {
-            return {
-                ...oldVal,
-                test2: newVal,
-            }
-        })
-    ).toEqual({ ...DATA, test2: '2' })
+    storage('local').set(keys.test, DATA)
+    expect(storage('local').get(keys.test)).toEqual(DATA)
+    storage('local').set(keys.test2, DATA2)
+    expect(storage('local').getKeys()).toEqual([keys.test, keys.test2])
+    expect(storage('local').getAll()).toEqual({
+        [keys.test]: DATA,
+        [keys.test2]: DATA2
+    })
+    storage('local').clear()
+    expect(storage('local').getAll()).toEqual({})
 })

@@ -8,7 +8,7 @@ export default function (url: string, query: queryType): string {
     if (!url || !isObject(query) || Array.isArray(query)) {
         return url
     }
-    let mark: string = '?'
+    let mark = '?'
     if (url.endsWith('?') || url.endsWith('&')) {
         mark = ''
     } else if (url.includes('?')) {

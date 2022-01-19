@@ -1,17 +1,9 @@
 import isNil from 'lodash/isNil'
-import isFunction from 'lodash/isFunction'
-import has from 'lodash/has'
 
-interface cacheType {
-    session?: Storage
-    local?: Storage
-}
-type storageType = keyof cacheType
-
-const cache: cacheType = {}
+type storageType = 'session' | 'local'
 
 class Storage {
-    private storage: any
+    private storage: globalThis.Storage
     constructor(type: storageType) {
         this.storage = type === 'local' ? window.localStorage : window.sessionStorage
     }
@@ -25,14 +17,8 @@ class Storage {
         } catch (err) {}
         return newVal
     }
-    public set(key: string, val: any, before?: (oldVal: any, newVal: any) => any): any {
-        let newVal = val
-        if (isFunction(before)) {
-            const oldVal = this.get(key)
-            newVal = before(oldVal, newVal)
-        }
-        this.storage.setItem(key, JSON.stringify(newVal))
-        return newVal
+    public set(key: string, val: any) {
+        this.storage.setItem(key, JSON.stringify(val))
     }
     public remove(key: string): any {
         const val = this.get(key)
@@ -41,14 +27,31 @@ class Storage {
         }
         return val
     }
+    public getKeys() {
+        const len = this.storage.length
+        const keys: string[] = []
+        for (let i = 0; i < len; i++) {
+            keys.push(this.storage.key(i))
+        }
+        return keys
+    }
+    public getAll() {
+        const result: { [key: string]: any } = {}
+        const keys = this.getKeys()
+        for (let i = 0; i < keys.length; i++) {
+            const key = keys[i]
+            result[key] = this.get(key)
+        }
+        return result
+    }
+    public clear() {
+        return this.storage.clear()
+    }
 }
 
 export default function (type: storageType): Storage {
     if (type !== 'session' && type !== 'local') {
-        throw new Error('参数必须是session与local其中一个')
+        throw new Error('The parameter must be session or local.')
     }
-    if (!has(cache, type)) {
-        cache[type] = new Storage(type)
-    }
-    return cache[type]
+    return new Storage(type)
 }

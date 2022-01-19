@@ -3,17 +3,16 @@
         "module": "ES2015",
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
+        "resolveJsonModule": true,
+        "allowJs": true,
         "target": "ES5",
         "noImplicitAny": true,
         "moduleResolution": "Node",
         "sourceMap": false,
-        "outDir": "dist",
-        "baseUrl": ".",
-        "paths": {
-            "*": ["node_modules/*"]
-        },
         "declaration": true,
-        "declarationDir": "dist/types"
+        "outDir": ".",
+        "baseUrl": "."
     },
-    "include": ["src/**/*"]
+    "include": ["src/**/*"],
+    "exclude": ["node_modules/**"]
 }
