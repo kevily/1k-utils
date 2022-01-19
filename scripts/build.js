@@ -1,7 +1,8 @@
-const { GulpTaskEngine, babel, ts, clear } = require('1k-tasks')
+const { GulpTaskEngine, babel, ts, clear, eslint } = require('1k-tasks')
 
 const task = new GulpTaskEngine()
 
+task.registry('eslint', eslint)
 ;['esm', 'cjs'].forEach(format => {
     task.setConfig({
         outputDir: format
