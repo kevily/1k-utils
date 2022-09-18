@@ -1,10 +1,7 @@
-import serialize from './serialize'
+import qs from 'qs'
 import isObject from 'lodash/isObject'
-export interface queryType {
-    [key: string]: any
-}
 
-export default function (url: string, query: queryType): string {
+export default function (url: string, query: Record<string, any>): string {
     if (!url || !isObject(query) || Array.isArray(query)) {
         return url
     }
@@ -14,5 +11,5 @@ export default function (url: string, query: queryType): string {
     } else if (url.includes('?')) {
         mark = '&'
     }
-    return url + mark + serialize(query)
+    return url + mark + qs.stringify(query)
 }

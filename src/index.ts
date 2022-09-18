@@ -1,13 +1,15 @@
 export { default as storage } from './storage'
-export { default as createFormatTime } from './createFormatTime'
+export { default as numToPercentage } from './numToPercentage'
+export { default as splitNum } from './splitNum'
+export { default as clipPercentageFromNum } from './clipPercentageFromNum'
 export { default as getFileAccept } from './getFileAccept'
-export { default as genId } from './genId'
-export { default as RouterSystem } from './RouterSystem'
-export { default as TreeActions } from './TreeActions'
+export { default as nativeId } from './nativeId'
+export { default as uuid } from './uuid'
+export { default as RouterManage } from './RouterManage'
+export { default as TreeManage } from './TreeManage'
+export { default as createPipeAsyncFunc } from './createPipeAsyncFunc'
 // uriAction
 // ----------------------------------------------------------------------
-export { default as serialize } from './serialize'
-export { default as deserialze } from './deserialze'
 export { default as mergeToUrl } from './mergeToUrl'
 // fileAction
 // ----------------------------------------------------------------------
