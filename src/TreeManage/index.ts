@@ -19,8 +19,8 @@ import { mergePath, indexPathToLodashPath, getWholePath, flat } from './base'
 
 export interface configType<T extends Record<string, any>> {
     fieldNames: {
-        key?: keyof T
-        children?: keyof T
+        key: keyof T
+        children: keyof T
     }
 }
 
@@ -28,15 +28,15 @@ export default class TreeManage<T extends Record<string, any>, K extends string>
     private indexPathSeparator: string
     public tree: T[]
     public pathInfo: Record<K, string>
-    public fieldNames?: configType<T>['fieldNames']
+    public fieldNames: configType<T>['fieldNames']
     static mergePath = mergePath
     static indexPathToLodashPath = indexPathToLodashPath
     static flat = flat
     static getWholePath = getWholePath
-    constructor(tree: T[], config?: configType<T>) {
+    constructor(tree: T[], config?: Partial<configType<T>>) {
         this.init(tree, config)
     }
-    public init(tree: T[], config?: configType<T>) {
+    public init(tree: T[], config?: Partial<configType<T>>) {
         this.indexPathSeparator = '-'
         this.fieldNames = {
             key: 'id',
@@ -60,6 +60,9 @@ export default class TreeManage<T extends Record<string, any>, K extends string>
                 const p = path ? `${path}-${i}` : `${i}`
                 const treeNode: T = tree[i]
                 const children: T[] = treeNode[fieldName.children]
+                if (!has(treeNode, fieldName.key)) {
+                    throw new Error(`treeNode is missing ${fieldName.key as string}`)
+                }
                 pathInfo[treeNode[fieldName.key]] = p
                 if (isArray(children)) {
                     run(children, p)
@@ -168,7 +171,7 @@ export default class TreeManage<T extends Record<string, any>, K extends string>
             const keyField = this.fieldNames.key
             assign(treeNode, newNode)
             if (newNode[keyField] !== treeNode[keyField]) {
-                set(this.pathInfo, newNode[keyField], get(this.pathInfo, treeNode[keyField]))
+                set(this.pathInfo, newNode[keyField]!, get(this.pathInfo, treeNode[keyField]))
                 unset(this.pathInfo, treeNode[keyField])
             }
             return true
