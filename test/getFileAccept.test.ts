@@ -1,5 +1,6 @@
-import getFileAccept, { accept } from '../src/getFileAccept'
+import getFileAccept, { createAccept } from '../src/getFileAccept'
 
+const accept = createAccept()
 test('getFileAccept', () => {
     expect(getFileAccept('xls')).toBe(accept.xls)
     expect(getFileAccept('xlsx')).toBe(accept.xlsx)

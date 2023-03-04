@@ -1,7 +1,7 @@
 import map from 'lodash/map'
 import isArray from 'lodash/isArray'
 
-function createAccept() {
+export function createAccept() {
     const accept = {
         // excel
         // ----------------------------------------------------------------------

@@ -5,7 +5,7 @@
         "allowSyntheticDefaultImports": true,
         "resolveJsonModule": true,
         "allowJs": true,
-        "target": "ES5",
+        "target": "ESNext",
         "noImplicitAny": true,
         "moduleResolution": "Node",
         "sourceMap": false,
