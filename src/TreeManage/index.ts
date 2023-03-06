@@ -19,8 +19,8 @@ import { mergePath, indexPathToLodashPath, getWholePath, flat } from './base'
 
 export interface configType<T extends Record<string, any>> {
     fieldNames: {
-        key: keyof T
-        children: keyof T
+        key?: keyof T
+        children?: keyof T
     }
 }
 
@@ -28,7 +28,7 @@ export default class TreeManage<T extends Record<string, any>, K extends string>
     private indexPathSeparator: string
     public tree: T[]
     public pathInfo: Record<K, string>
-    public fieldNames: configType<T>['fieldNames']
+    public fieldNames: Required<configType<T>['fieldNames']>
     static mergePath = mergePath
     static indexPathToLodashPath = indexPathToLodashPath
     static flat = flat
