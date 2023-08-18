@@ -1,4 +1,4 @@
-import { clone, map, omit, size } from 'lodash'
+import { assign, clone, isFunction, map, omit, size } from 'lodash'
 
 /**
  * @description Merge currentPath to parentPath.
@@ -6,10 +6,10 @@ import { clone, map, omit, size } from 'lodash'
  * @param currentPath
  * @returns whole path
  */
-
 export function mergePath(parentPath: string, currentPath: string): string {
     return !parentPath ? currentPath : `${parentPath}-${currentPath}`
 }
+
 /**
  * @description transform indexPath to lodash.get path.
  * @description indexToLodashPath([0,1,2]) -> '[0].children[1].children[2]'
@@ -26,6 +26,7 @@ export function indexPathToLodashPath(
     }
     return `[${indexPath.join(`].${childrenFieldName}[`)}]`
 }
+
 /**
  * @param path
  * @returns By default, return parent path.
@@ -41,23 +42,51 @@ export function getWholePath(path: string): string[] {
     })
 }
 
-export function flat<T extends Record<string, any>>(
-    tree: T[],
-    childrenField = 'children',
-    depth = 1
-): T[] {
+interface flatConfigType<T> {
+    childrenField?: string
+    depth?: number
+    parentNode?: T
+    iteratee?: (data: {
+        node: T
+        children: T[]
+        prevNode?: T
+        parentNode?: T
+        index: number
+    }) => void
+}
+
+export function flat<T extends Record<string, any>>(tree: T[], config?: flatConfigType<T>): T[] {
+    const __config__ = assign<flatConfigType<T>, flatConfigType<T>>(
+        { childrenField: 'children', depth: 1 },
+        config || {}
+    )
     const nodes: T[] = []
     let currentDepth = 0
-    function run(tree: T[]) {
+
+    function run(tree: T[], parentNode?: T) {
+        let prevNode: Partial<T> = {}
         for (let i = 0; i < tree.length; i++) {
             const node = tree[i]
-            nodes.push(clone(omit(node, childrenField)) as T)
-            if (Array.isArray(node.tree) && currentDepth < depth) {
+            const newNode = clone(omit(node, __config__.childrenField!)) as T
+            const children = node[__config__.childrenField!]
+            if (isFunction(__config__.iteratee)) {
+                __config__.iteratee({
+                    node: newNode,
+                    children,
+                    prevNode: prevNode as T,
+                    parentNode,
+                    index: i
+                })
+            }
+            nodes.push(newNode)
+            prevNode = newNode
+            if (Array.isArray(children) && currentDepth < __config__.depth!) {
                 currentDepth += 1
-                run(node[childrenField])
+                run(children, newNode)
             }
         }
     }
-    run(tree)
+
+    run(tree, __config__.parentNode)
     return nodes
 }

@@ -1,6 +1,5 @@
 import {
     assign,
-    each,
     times,
     get,
     includes,
@@ -13,7 +12,9 @@ import {
     pullAt,
     toNumber,
     forEach,
-    unset
+    unset,
+    omit,
+    cloneDeep
 } from 'lodash'
 import { mergePath, indexPathToLodashPath, getWholePath, flat } from './base'
 
@@ -27,15 +28,17 @@ export interface configType<T extends Record<string, any>> {
 export default class TreeManage<T extends Record<string, any>, K extends string> {
     private indexPathSeparator: string
     public tree: T[]
-    public pathInfo: Record<K, string>
+    public pathInfo: { [key in K]?: string }
     public fieldNames: Required<configType<T>['fieldNames']>
     static mergePath = mergePath
     static indexPathToLodashPath = indexPathToLodashPath
     static flat = flat
     static getWholePath = getWholePath
+
     constructor(tree: T[], config?: Partial<configType<T>>) {
         this.init(tree, config)
     }
+
     public init(tree: T[], config?: Partial<configType<T>>) {
         this.indexPathSeparator = '-'
         this.fieldNames = {
@@ -43,35 +46,39 @@ export default class TreeManage<T extends Record<string, any>, K extends string>
             children: 'children',
             ...config?.fieldNames
         }
-        this.tree = tree
-        this.pathInfo = this.createPathInfo(tree, '')
+        this.tree = []
+        this.pathInfo = {}
+
+        const fieldName = this.fieldNames
+        const indexPathSeparator = this.indexPathSeparator
+        const run = (tree: T[], parentNode: T, parentPath: string) => {
+            const nodes: T[] = []
+            for (let i = 0; i < tree.length; i++) {
+                const p = parentPath ? `${parentPath}${indexPathSeparator}${i}` : `${i}`
+                const treeNode = cloneDeep(omit(tree[i], [fieldName.children])) as T
+                const children: T[] = tree[i][fieldName.children]
+                if (!has(treeNode, fieldName.key)) {
+                    break
+                }
+                this.pathInfo[treeNode[fieldName.key]] = p
+                if (isArray(children)) {
+                    treeNode[fieldName.children] = run(children, treeNode, p) as never
+                }
+                nodes.push(treeNode)
+            }
+            return nodes
+        }
+        this.tree = run(tree, null, '')
     }
+
     public has(key: K) {
         return has(this.pathInfo, key)
     }
+
     public findIndexPath(key: K) {
         return split(this.pathInfo[key], this.indexPathSeparator)
     }
-    public createPathInfo(tree: T[], parentPath: string) {
-        const pathInfo: Record<string, string> = {}
-        const fieldName = this.fieldNames
-        function run(tree: T[], path: string) {
-            for (let i = 0; i < tree.length; i++) {
-                const p = path ? `${path}-${i}` : `${i}`
-                const treeNode: T = tree[i]
-                const children: T[] = treeNode[fieldName.children]
-                if (!has(treeNode, fieldName.key)) {
-                    throw new Error(`treeNode is missing ${fieldName.key as string}`)
-                }
-                pathInfo[treeNode[fieldName.key]] = p
-                if (isArray(children)) {
-                    run(children, p)
-                }
-            }
-        }
-        run(tree, parentPath)
-        return pathInfo
-    }
+
     public search(field: keyof T, values: string[], isSameChain = false): T[] {
         const idsLen = size(values)
         if (idsLen <= 0) {
@@ -79,7 +86,7 @@ export default class TreeManage<T extends Record<string, any>, K extends string>
         }
         const nodes: T[] = []
         const DFS = (_treeList: T[]) => {
-            each(_treeList, (treeNode: T) => {
+            forEach(_treeList, (treeNode: T) => {
                 if (includes(values, treeNode[field])) {
                     nodes.push(treeNode)
                 }
@@ -89,11 +96,14 @@ export default class TreeManage<T extends Record<string, any>, K extends string>
                 if (isArray(treeNode[this.fieldNames.children])) {
                     DFS(treeNode[this.fieldNames.children])
                 }
+                return
             })
         }
         const BFS = (_treeList: T[]) => {
             let idIndex = 0
             let index = 0
+            let treeListLen = size(_treeList)
+            // eslint-disable-next-line no-constant-condition
             while (true) {
                 const treeNode: T = _treeList[index]
                 if (treeNode[field] === values[idIndex]) {
@@ -101,8 +111,11 @@ export default class TreeManage<T extends Record<string, any>, K extends string>
                     idIndex += 1
                     index = 0
                     _treeList = treeNode[this.fieldNames.children]
+                    treeListLen = size(_treeList)
+                } else {
+                    index += 1
                 }
-                if (idIndex >= idsLen || !_treeList) {
+                if (index >= treeListLen || idIndex >= idsLen || !_treeList) {
                     break
                 }
             }
@@ -110,10 +123,12 @@ export default class TreeManage<T extends Record<string, any>, K extends string>
         isSameChain ? BFS(this.tree) : DFS(this.tree)
         return nodes
     }
+
     public findThePassingPath(key: K) {
         const indexPath = this.findIndexPath(key)
         return times(size(indexPath), i => indexPath.slice(0, i + 1))
     }
+
     public findThePassingNode(key: K): T[] {
         const indexPath = this.findIndexPath(key)
         return times(size(indexPath), i => {
@@ -123,6 +138,7 @@ export default class TreeManage<T extends Record<string, any>, K extends string>
             )
         })
     }
+
     public findNode(key: K): T | undefined {
         const path = this.pathInfo[key]
         if (path) {
@@ -134,6 +150,32 @@ export default class TreeManage<T extends Record<string, any>, K extends string>
         }
         return void 0
     }
+
+    public merge(from: T[], rootKey: K) {
+        const root = this.findNode(rootKey)
+        const merge = (from: T[], parentNode: T) => {
+            if (!parentNode) {
+                return
+            }
+            for (let i = 0; i < from.length; i++) {
+                const node = from[i]
+                const nodeKey = node[this.fieldNames.key]
+                if (has(this.pathInfo, nodeKey)) {
+                    merge(node[this.fieldNames.children] || [], this.findNode(nodeKey))
+                } else {
+                    this.insertToChildren(
+                        parentNode[this.fieldNames.key],
+                        cloneDeep(omit(node, [this.fieldNames.children])) as never
+                    )
+                    if (isArray(node.children)) {
+                        merge(node.children, this.findNode(nodeKey))
+                    }
+                }
+            }
+        }
+        merge(from, root)
+    }
+
     public insert(indexPath: (string | number)[], newNode: T, overwrite?: boolean): boolean {
         const childrenField = this.fieldNames.children as string
         const parentNode =
@@ -165,6 +207,14 @@ export default class TreeManage<T extends Record<string, any>, K extends string>
         this.pathInfo[newNode[fieldNames.key]] = indexPath.join(this.indexPathSeparator)
         return true
     }
+
+    public insertToChildren(parentKey: K, node: T, overwrite?: boolean) {
+        const parentIndexPath = this.findIndexPath(parentKey)
+        const parentNode = this.findNode(parentKey)
+        const insertIndexPath = [...parentIndexPath, size(parentNode[this.fieldNames.children])]
+        this.insert(insertIndexPath, node, overwrite)
+    }
+
     public update(key: K, newNode: Partial<T>): boolean {
         const treeNode = this.findNode(key)
         if (treeNode && newNode) {
@@ -178,6 +228,7 @@ export default class TreeManage<T extends Record<string, any>, K extends string>
         }
         return false
     }
+
     public remove(key: K): boolean {
         if (has(this.pathInfo, key)) {
             const indexPath = this.pathInfo[key]?.split(this.indexPathSeparator)
@@ -194,10 +245,17 @@ export default class TreeManage<T extends Record<string, any>, K extends string>
                 )
                 removed = pullAt(parentNode[childrenField], removeIndex)
             }
-            forEach(flat<T>(removed, childrenField, Infinity), o => {
-                unset(this.pathInfo, o[keyField])
-            })
+            forEach(
+                flat<T>(removed, {
+                    childrenField,
+                    depth: Infinity
+                }),
+                o => {
+                    unset(this.pathInfo, o[keyField])
+                }
+            )
+            return true
         }
-        return true
+        return false
     }
 }
