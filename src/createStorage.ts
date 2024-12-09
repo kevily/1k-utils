@@ -49,7 +49,7 @@ export default function createStorage<DATA>(type: 'session' | 'local') {
     if (type !== 'session' && type !== 'local') {
         throw new Error('The parameter must be session or local.')
     }
-    const storage = type === 'local' ? window.localStorage : window.sessionStorage
+    const storage = type === 'local' ? globalThis.localStorage : globalThis.sessionStorage
     const instance = (key: string, config?: Omit<configType, 'key'>) => {
         if (KEYS.has(key)) {
             throw new Error(`${key} storage already initialized!`)

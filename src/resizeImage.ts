@@ -1,5 +1,5 @@
 import EXIF from 'exif-js/exif'
-import base64ToBlob from './base64ToBlob'
+import { base64ToBlob } from './file'
 import includes from 'lodash/includes'
 
 function convertCanvasToImage(canvas: HTMLCanvasElement, type: string) {

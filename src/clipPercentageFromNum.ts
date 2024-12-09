@@ -6,7 +6,7 @@ import { toString, divide, times } from 'lodash'
 export default function clipPercentageFromNum(target: number, clipNum: number): string[] {
     const result = Array(clipNum).fill(0)
     const percentage = divide(100, clipNum)
-    const fillNum = window.parseInt(toString(divide(target, percentage)))
+    const fillNum = globalThis.parseInt(toString(divide(target, percentage)))
     times(fillNum, i => {
         result[i] = percentage
     })
