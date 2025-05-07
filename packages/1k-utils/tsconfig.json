@@ -7,7 +7,6 @@
         "resolveJsonModule": true,
         "module": "ESNext",
         "esModuleInterop": true,
-        "jsx": "react-jsx",
         "allowSyntheticDefaultImports": true,
         "allowJs": true,
         "target": "ESNext",
@@ -21,15 +20,9 @@
         "emitDeclarationOnly": true
     },
     "include": [
-        ".storybook"
+        "src"
     ],
     "exclude": [
-        "node_modules/**/*",
-        "scripts/**/*"
-    ],
-    "references": [
-        {
-            "path": "./tsconfig.node.json"
-        }
+        "src/**/*.test.ts"
     ]
 }
